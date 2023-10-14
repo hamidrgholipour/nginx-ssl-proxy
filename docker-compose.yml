@@ -1,11 +1,16 @@
-version: '3'
+version: '3.4'
 services:
-  echo-server:
-    image: webserver
-    container_name: webserver
-    ports:
-      - 8080:80
+  nexus:
+    image: sonatype/nexus3:3.34.1
+    container_name: nexus
     restart: always
+    ports:
+
+      - 8082:8082
+      - 8081:8081
+    volumes:
+      - ./data:/nexus-data:z
+#       -  nexus-data:/nexus-data
 
   nginx-proxy:
     image: nginx
@@ -17,3 +22,9 @@ services:
     volumes:
       - ./conf.d/:/etc/nginx/conf.d/:ro
       - ./certs:/etc/certs:ro
+
+volumes:
+
+  nexus-data:
+    name: nexus-data
+    external: true
