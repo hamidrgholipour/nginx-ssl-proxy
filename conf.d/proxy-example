@@ -1,0 +1,13 @@
+#this part we can mention machine ip address
+upstream web-1 {
+# 9090 is the port of web server   
+server web-1:9090;
+}
+server {
+# port 8080 is exposing port in docker compose like 80:8080
+# or if we do like 80:80 we should change to listen 80
+listen 8080;
+location / {
+proxy_pass http://192.168.10.201:9090;
+}
+}
